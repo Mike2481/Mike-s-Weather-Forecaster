@@ -14,26 +14,28 @@
     <main class="mainContainer" id="mainContainer">
         <section class="searchContainer">
             <form class="searchForm" id="searchForm">
-                <h3>Search For A City</h3>
+                <h3>Search For A City:</h3>
                 <div class="searchField">
                     <label for="city" ></label> <!-- Need Placeholder -->
                     <input type="text" id="city" placeholder="Enter City Name">
                 </div>
                 <div>
-                    <button class="button" type="submit">Search</button>
+                    <button id="search" class="button" type="submit">Search</button>
                 </div>
             </form>
-            <div class="results" id="results"></div>
+            <div class="results" id="results">
+                <ul class="cities"></ul>
+            </div>
         </section>
         <section class="weather" id="weather">
-            <div class="currentInfo" id="currentInfo"></div>
+            <div class="currentInfo" id="currentInfo">current info here</div>
             <div class="forcastContainer" id="forcastContainer">
                 <h3>5-Day Forecast:</h3>
-                <div class="forcastBox" id="box1"></div>
-                <div class="forcastBox" id="box2"></div>
-                <div class="forcastBox" id="box3"></div>
-                <div class="forcastBox" id="box4"></div>
-                <div class="forcastBox" id="box5"></div>
+                <div class="forcastBox" id="box1">1</div>
+                <div class="forcastBox" id="box2">2</div>
+                <div class="forcastBox" id="box3">3</div>
+                <div class="forcastBox" id="box4">4</div>
+                <div class="forcastBox" id="box5">5</div>
             </div>
         </section>
     </main>

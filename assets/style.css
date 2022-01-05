@@ -21,6 +21,7 @@ header {
     background: linear-gradient(265deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 28%, rgba(0,212,255,1) 100%);
     color: white;
     text-align: center;
+    text-shadow: 1px 1px 2px white;
     margin: 10px;
     
 }
@@ -28,20 +29,78 @@ header {
 .mainContainer {
     border: 1px solid black;
     margin: 10px;
-    padding: 5px;
+    padding: 0 5px 5px 0;
     width: 100vw;
     display: flex;
 }
 
 .searchContainer {
-    border: 1px solid black;
-    display: flex;
     width: 33%;
     margin: 2px;
 }
+
+.searchForm {
+    border-bottom: 3px solid grey;
+    padding: 0 0 .25rem 0;
+}
+
+.searchForm h3 {
+    font-weight: bolder;
+    font-size: 1.5rem;
+    text-shadow: 1px 1px 2px lightgray;
+    margin: .25rem;
+    width: 100%;
+    
+}
+
+.searchField {
+    width: 100%;
+}
+
+#city {
+    padding: 5px;
+    width: 100%;
+    border-radius: 5px;
+    margin: .25rem 0 .5rem 0;
+    background-color: white;
+    border-color: lightgray;
+
+
+}
+
+.button {
+    padding: 5px;
+    width: 100%;
+    border-radius: 5px;
+    margin: .25rem 0 .5rem 0;
+    color: white;
+    background: rgb(101, 163, 255);
+}
+
+.results {
+    border: 1px solid black;
+    padding: 5px;
+    width: 100%;
+    border-radius: 5px;
+    margin: .25rem 0 .5rem 0;
+    background-color: rgb(175, 175, 175);
+    border-color: black;
+    text-align: center;
+    font-size: .8rem;
+
+
+}
+
 .weather {
     border: 1px solid black;
     width: 66%;
-    margin: 2px;
-
+    margin: 0 10px 5px 10px;
+    display: flex;
+    flex-direction: column;
 }
+
+
+
+
+
+
