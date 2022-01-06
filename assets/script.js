@@ -1,4 +1,7 @@
+// variable to store API key
 var APIKey = "64f10b724ca60e2b389d1dae4bebbd3f";
+
+// global variables
 var form = document.querySelector(".searchForm");
 var searchBtn = document.querySelector("#search");
 var cityEl = document.getElementById("city");
@@ -6,38 +9,38 @@ var list = document.querySelector(".cities");
 var currentInfo = document.getElementById("currentInfo");
 
 //https://api.openweathermap.org/data/2.5/weather?q=phoenix&appid=64f10b724ca60e2b389d1dae4bebbd3f
-// function to
+
+// function to get city input name to pass into queryURL
 var getCity = function () {
 
     var city = cityEl.value;
-    console.log("city input: ", city)
-  // does this need to be a function to pass lat, long into?
-  var queryURL =
-    `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKey}`;
 
+    var queryURL =
+    `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKey}`;
+// fetch request to get data for entered city
   fetch(queryURL)
     .then(function (response) {
       if (response.ok) {
         response.json().then(function (data) {
-         // console.log(data);
+          console.log(data);
+// Pull latitude and longitude values from data and pass to forecast function 
 
-          //console.log(data.coord.lat);
           forecast(data.coord.lat, data.coord.lon, city)
         });
+        // Error is response is not 'ok'
       } else {
         alert("Error");
       }
     })
+    // Error is an issue with site
      .catch(function (error) {
        alert("Unable to connect", error);
      });
 };
 
 
-
 var forecast = function (lat, long, city) {
-
-    console.log("I'm being called!!!!")
+// second API will use lat and long from first API so we can get UV index
   var oneCall = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&units=imperial&appid=${APIKey}`;
 
   fetch(oneCall)
@@ -46,14 +49,16 @@ var forecast = function (lat, long, city) {
         response.json().then(function (data) {
           console.log("One Call API: ", data);
 
-            // create element
+            // create elements for data
             var cityNameEl = document.createElement ("h3");
             var windEl = document.createElement ("p");
             var tempEl = document.createElement ("p");
             var humidityEl = document.createElement ("p");
             var uvIndexEl = document.createElement ("p");
-            uvIndexEl.className = "uvColors";
             // this class works to impact UV DOM element
+            //uvIndexEl.className = "uvColors";
+            var uvIndexColor = document.createElement ("span");
+
 
 
             //give element content
@@ -61,17 +66,29 @@ var forecast = function (lat, long, city) {
             windEl.textContent = `Wind spreed: ${data.current.wind_speed} mph`
             tempEl.textContent = `Current Temp: ${data.current.temp} degrees F`
             humidityEl.textContent = `Humidity: ${data.current.humidity} % `
-            uvIndexEl.textContent = `UV Index: ${data.current.uvi}`
+            uvIndexEl.textContent = `UV Index: `
+            uvIndexColor.textContent = `${data.current.uvi}`
+
+            if(data.current.uvi <= 2) {
+              uvIndexColor.classList = "favorable"
+            } else if (data.current.uvi >2 && data.current.uvi <=8) {
+              uvIndexColor.classList = "moderate"
+            } else if (data.current.uvi >8) {
+              uvIndexColor.classList = "severe"
+            }
             
             //`Temp: ${data.current.temp} degrees F`;
             // append your new element to the page
             currentInfo.append(cityNameEl, tempEl, windEl, humidityEl, uvIndexEl);
-            console.log(data.current.uvi);
-            var uv = data.current.uvi;
+            uvIndexEl.appendChild(uvIndexColor);
+
+
 
             // if (uv < 3) {
             //   (data.current.uvi).interior.color = "green";
             // };
+
+            console.log(data.current.uvi);
 
 
         });
@@ -82,8 +99,10 @@ var forecast = function (lat, long, city) {
 
     .catch(function (error) {
       alert("Unable to connect", error);
+      
     });
 };
+
 form.addEventListener("click", function(event){
     event.preventDefault();
 })

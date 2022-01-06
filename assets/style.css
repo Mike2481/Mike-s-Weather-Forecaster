@@ -112,7 +112,18 @@ header {
     font-size: 20px;
 }
 
-
+.favorable {
+    background-color: green;
+    border: 1px solid black;
+}
+.moderate {
+    background-color: yellow;
+    border: 1px solid black;
+}
+.severe {
+    background-color: red;
+    border: 1px solid black;
+}
 
 
 
