@@ -7,16 +7,16 @@ var searchBtn = document.querySelector("#search");
 var cityEl = document.getElementById("city");
 var list = document.querySelector(".cities");
 var currentInfo = document.getElementById("currentInfo");
+cityArray = [];
 
 //https://api.openweathermap.org/data/2.5/weather?q=phoenix&appid=64f10b724ca60e2b389d1dae4bebbd3f
 
 // function to get city input name to pass into queryURL
 var getCity = function () {
+  var city = cityEl.value.trim();
 
-    var city = cityEl.value;
-
-    var queryURL =
-    `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKey}`;
+  var queryURL =
+  `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKey}`;
 // fetch request to get data for entered city
   fetch(queryURL)
     .then(function (response) {
@@ -36,7 +36,46 @@ var getCity = function () {
      .catch(function (error) {
        alert("Unable to connect", error);
      });
+     cityEl.value = ""
+     saveCity(city);
+      pastSearchCities(city);
 };
+
+
+
+
+// able to get cities to populate in the Ul but not individual li 
+var cityCount = 0
+
+// var pastSearchCities = function () {
+  // for (i = 0; i < localStorage.length; i++)
+  //   if(localStorage.key(i).indexOf("cities") !== -1) {
+  //     var oldSearch = document.createElement("li");
+  //     oldSearch.textContent = JSON.parse(localStorage.getItem(localStorage.key(i)));
+  //     list.appendChild(oldSearch);
+  //     cityCount++;
+    // }
+// }
+function pastSearchCities() {
+  var priorSearches = JSON.parse(localStorage.getItem("cities"));
+  if (priorSearches != null && priorSearches.length < 1){
+  for (var i = 0; i < priorSearches.length; i++){
+    // results.append(priorSearches[i]);
+      var oldSearch = document.createElement("li");
+      oldSearch.textContent = priorSearches[i]
+      list.append(oldSearch);
+      priorSearches++;
+
+  }};
+  console.log(priorSearches[i]);
+
+};
+
+var saveCity = function(city) {
+  cityArray.push(city);
+  localStorage.setItem("cities", JSON.stringify(cityArray));
+};
+
 
 
 var forecast = function (lat, long, city) {
@@ -77,18 +116,14 @@ var forecast = function (lat, long, city) {
               uvIndexColor.classList = "severe"
             }
             
-            //`Temp: ${data.current.temp} degrees F`;
             // append your new element to the page
+            document.getElementById("currentInfo").innerHTML = "";
             currentInfo.append(cityNameEl, tempEl, windEl, humidityEl, uvIndexEl);
             uvIndexEl.appendChild(uvIndexColor);
 
-
-
-            // if (uv < 3) {
-            //   (data.current.uvi).interior.color = "green";
-            // };
-
             console.log(data.current.uvi);
+
+      // Data is staying when new search is performed.  Need a way to clear it once new search is started
 
 
         });
@@ -105,7 +140,10 @@ var forecast = function (lat, long, city) {
 
 form.addEventListener("click", function(event){
     event.preventDefault();
-})
+
+    // currentInfo = "";
+    });
+    //     var city = cityInputEl.value.trim();
 searchBtn.addEventListener("click", getCity);
 
 // navigator.geolocation.getCurrentPosition(getCity);
