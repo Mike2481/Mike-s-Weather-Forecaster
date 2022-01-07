@@ -58,7 +58,8 @@ var cityCount = 0
 // }
 function pastSearchCities() {
   var priorSearches = JSON.parse(localStorage.getItem("cities"));
-
+    console.log(priorSearches);
+    list.innerHTML = "";
     priorSearches.forEach(generateList);
 
   // for (i = 0; i < priorSearches.length; i++) {
@@ -85,15 +86,17 @@ function pastSearchCities() {
   //   list.append(oldSearch);
   // };
   // console.log(priorSearches);
-};
-var generateList = function(city) {
+
+function generateList(city) {
+  // list.innerHTML = "";
   var cityText = document.createElement("li");
   cityText.textContent = city
   console.log(city);
-  list.append(city);
+  list.append(cityText);
+
 }
 
-
+};
 ;
 
 var saveCity = function(city) {
