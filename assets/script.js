@@ -58,18 +58,43 @@ var cityCount = 0
 // }
 function pastSearchCities() {
   var priorSearches = JSON.parse(localStorage.getItem("cities"));
-  if (priorSearches != null && priorSearches.length < 1){
-  for (var i = 0; i < priorSearches.length; i++){
-    // results.append(priorSearches[i]);
-      var oldSearch = document.createElement("li");
-      oldSearch.textContent = priorSearches[i]
-      list.append(oldSearch);
-      priorSearches++;
 
-  }};
-  console.log(priorSearches[i]);
+    priorSearches.forEach(generateList);
 
+  // for (i = 0; i < priorSearches.length; i++) {
+  //   const oldSearch = priorSearches[i];
+  //   console.log(oldSearch);
+  //   var searchList = document.createElement("li");
+  //   searchList.textContent = oldSearch;
+  //   list.append(oldSearch);
+  // }
+  // if (priorSearches != null && priorSearches.length < 1){
+    // cityArray.forEach(arrayValue => console.log(arrayValue));
+  // for (var i = 0; i < priorSearches.length; i++){
+  //   // results.append(priorSearches[i]);
+  //     var oldSearch = document.createElement("li");
+  //     oldSearch.textContent = priorSearches[i]
+  //     list.append(oldSearch);
+  //     priorSearches++;
+  // priorSearches.forEach(cityText => {
+  //   for (var i = 0; i < priorSearches.length; i++){
+  //   cityText = document.createElement("li");
+  //   cityText.textContent = priorSearches[i];
+  //   var oldSearch = document.querySelectorAll("li");
+  //   console.log(cityText.textContent);
+  //   list.append(oldSearch);
+  // };
+  // console.log(priorSearches);
 };
+var generateList = function(city) {
+  var cityText = document.createElement("li");
+  cityText.textContent = city
+  console.log(city);
+  list.append(city);
+}
+
+
+;
 
 var saveCity = function(city) {
   cityArray.push(city);
