@@ -10,40 +10,44 @@ var currentInfo = document.getElementById("currentInfo");
 var listResults = document.getElementById("results");
 var forecastContainer = document.getElementById("forecastContainer");
 // array that all searched cities will feed into
-cityArray = JSON.parse(localStorage.getItem("cities") || []);
+cityArray = JSON.parse(localStorage.getItem("cities")) || [];
 
 //https://api.openweathermap.org/data/2.5/weather?q=phoenix&appid=64f10b724ca60e2b389d1dae4bebbd3f
 
 // function to get city input name to pass into queryURL
 var getCity = function () {
-  var city = cityEl.value.trim();
+  if (city !== null && city !== "") {
+    var city = cityEl.value.trim();
 
-  var queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKey}`;
-  // fetch request to get data for entered city
-  fetch(queryURL)
-    .then(function (response) {
-      if (response.ok) {
-        response.json().then(function (data) {
-          // console.log(data);
-          // Pull latitude and longitude values from data and pass to forecast function
+    var queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKey}`;
+    // fetch request to get data for entered city
+    fetch(queryURL)
+      .then(function (response) {
+        if (response.ok) {
+          response.json().then(function (data) {
+            // console.log(data);
+            // Pull latitude and longitude values from data and pass to forecast function
 
-          forecast(data.coord.lat, data.coord.lon, city);
-        });
-        // Error is response is not 'ok'
-      } else {
-        alert("Error");
-      }
-    })
-    // Error is an issue with site
-    .catch(function (error) {
-      alert("Unable to connect", error);
-    });
+            forecast(data.coord.lat, data.coord.lon, city);
+          });
+          // Error is response is not 'ok'
+        } else {
+          alert("City Not Found.  Please Check Spelling");
+        }
+      })
+      // Error is an issue with site
+      .catch(function (error) {
+        alert("Unable to connect", error);
+      });
 
-  // clear the cityEl so values do not stack
-  cityEl.value = "";
-  // run functions for local storage
-  saveCity(city);
-  pastSearchCities();
+    // clear the cityEl so values do not stack
+    cityEl.value = "";
+    // run functions for local storage
+    saveCity(city);
+    pastSearchCities();
+  } else {
+    alert("Please Enter A City Name");
+  }
 };
 // function to handle clicked on saved searches
 var runAgain = function (event) {
@@ -65,7 +69,7 @@ var runAgain = function (event) {
         });
         // Error is response is not 'ok'
       } else {
-        alert("Error");
+        alert("City Not Found.  Please Check Spelling");
       }
     })
     // Error is an issue with site
@@ -79,7 +83,7 @@ var runAgain = function (event) {
 
 // get past search values from local storage and populate them in ul
 function pastSearchCities() {
-  var priorSearches = JSON.parse(localStorage.getItem("cities"));
+  var priorSearches = JSON.parse(localStorage.getItem("cities")) || [];
   console.log(priorSearches);
   list.innerHTML = "";
   // console.log(JSON.parse(localStorage.getItem("cities")));
@@ -189,7 +193,7 @@ var forecast = function (lat, long, city) {
           // Display errors
         });
       } else {
-        alert("Error");
+        alert("City Not Found.  Please Check Spelling");
       }
     })
 
