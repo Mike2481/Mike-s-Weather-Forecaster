@@ -8,8 +8,9 @@ var cityEl = document.getElementById("city");
 var list = document.querySelector(".cities");
 var currentInfo = document.getElementById("currentInfo");
 var listResults = document.getElementById("results");
-var forecastContainer = document.getElementById("forecastContainer")
-cityArray = [];
+var forecastContainer = document.getElementById("forecastContainer");
+// array that all searched cities will feed into
+cityArray = JSON.parse(localStorage.getItem("cities") || []);
 
 //https://api.openweathermap.org/data/2.5/weather?q=phoenix&appid=64f10b724ca60e2b389d1dae4bebbd3f
 
@@ -23,7 +24,7 @@ var getCity = function () {
     .then(function (response) {
       if (response.ok) {
         response.json().then(function (data) {
-          console.log(data);
+          // console.log(data);
           // Pull latitude and longitude values from data and pass to forecast function
 
           forecast(data.coord.lat, data.coord.lon, city);
@@ -37,11 +38,14 @@ var getCity = function () {
     .catch(function (error) {
       alert("Unable to connect", error);
     });
-  cityEl.value = "";
-  saveCity(city);
-  pastSearchCities(city);
-};
 
+  // clear the cityEl so values do not stack
+  cityEl.value = "";
+  // run functions for local storage
+  saveCity(city);
+  pastSearchCities();
+};
+// function to handle clicked on saved searches
 var runAgain = function (event) {
   event.preventDefault();
   var city = event.target.innerHTML;
@@ -69,53 +73,25 @@ var runAgain = function (event) {
       alert("Unable to connect", error);
     });
   cityEl.value = "";
-  //  saveCity(city);
-  //   pastSearchCities(city);
+  // run functions for local storage
+  pastSearchCities();
 };
 
-var cityCount = 0;
 // get past search values from local storage and populate them in ul
 function pastSearchCities() {
   var priorSearches = JSON.parse(localStorage.getItem("cities"));
-  //console.log(priorSearches);
-  // clear ul so there are no unintentional duplicates
+  console.log(priorSearches);
   list.innerHTML = "";
-  priorSearches.forEach(generateList);
-  // ALL FAILED CODE while trying to get list items to the ul
-  // for (i = 0; i < priorSearches.length; i++) {
-  //   const oldSearch = priorSearches[i];
-  //   console.log(oldSearch);
-  //   var searchList = document.createElement("li");
-  //   searchList.textContent = oldSearch;
-  //   list.append(oldSearch);
-  // }
-  // if (priorSearches != null && priorSearches.length < 1){
-  // cityArray.forEach(arrayValue => console.log(arrayValue));
-  // for (var i = 0; i < priorSearches.length; i++){
-  //   // results.append(priorSearches[i]);
-  //     var oldSearch = document.createElement("li");
-  //     oldSearch.textContent = priorSearches[i]
-  //     list.append(oldSearch);
-  //     priorSearches++;
-  // priorSearches.forEach(cityText => {
-  //   for (var i = 0; i < priorSearches.length; i++){
-  //   cityText = document.createElement("li");
-  //   cityText.textContent = priorSearches[i];
-  //   var oldSearch = document.querySelectorAll("li");
-  //   console.log(cityText.textContent);
-  //   list.append(oldSearch);
-  // };
-  // console.log(priorSearches);
-
-  // Proper code for appending li to ul
-
-  function generateList(city) {
+  // console.log(JSON.parse(localStorage.getItem("cities")));
+  priorSearches.forEach((city) => {
     var cityText = document.createElement("li");
     cityText.textContent = city;
-    console.log(city);
+    cityText.classList.add("listItem");
     list.append(cityText);
-  }
+    localStorage.setItem("cities", JSON.stringify(cityArray));
+  });
 }
+
 // save search results in local storage for future use
 var saveCity = function (city) {
   cityArray.push(city);
@@ -160,10 +136,11 @@ var forecast = function (lat, long, city) {
             uvIndexColor.classList = "moderate";
           } else if (data.current.uvi > 8) {
             uvIndexColor.classList = "severe";
-          };
+          }
           // get and display date
           var timestamp = `${data.current.dt}`;
-          dateEl.textContent = "  " + new Date(timestamp*1000).toLocaleDateString("en-US");
+          dateEl.textContent =
+            "  " + new Date(timestamp * 1000).toLocaleDateString("en-US");
           // add icon to element
           icon = `${data.current.weather[0].icon}`;
           iconEl.src = `http://openweathermap.org/img/wn/${icon}@2x.png`;
@@ -171,44 +148,45 @@ var forecast = function (lat, long, city) {
           console.log(iconEl);
           // append your new element to the page
           document.getElementById("currentInfo").innerHTML = "";
-          
+
           container.append(cityNameEl, dateEl, iconEl);
           currentInfo.append(container, tempEl, windEl, humidityEl, uvIndexEl);
           uvIndexEl.appendChild(uvIndexColor);
 
           // console.log(data.current.uvi);
-
-          for(i = 0; i < 6; i++){
-          // create variants for the 5 day forecast
-          var box = document.createElement("div");
-          var dailyWindEl = document.createElement("p");
-          var dailyTempEl = document.createElement("p");
-          var dailyDateEl = document.createElement("span");
-          var dailyIconEl = document.createElement("img");
-          var dailyHumidityEl = document.createElement("p");
-
-          box.classList ="forecastBox"
-          dailyWindEl.textContent = `Wind spreed: ${data.daily[i].wind_speed} mph`;
-          dailyTempEl.textContent = `Temp: ${data.daily[i].temp.day} ° F`;
-          dailyHumidityEl.textContent = `Humidity: ${data.daily[i].humidity} % `;
-
-          var timestamp = `${data.daily[i].dt}`;
-          dailyDateEl.textContent = "  " + new Date(timestamp*1000).toLocaleDateString("en-US");
-          // add icon to element
-          icon = `${data.daily[i].weather[0].icon}`;
-          dailyIconEl.src = `http://openweathermap.org/img/wn/${icon}@2x.png`;
-
           document.getElementById("forecastContainer").innerHTML = "";
 
-          
-          box.append(dailyDateEl, dailyIconEl, dailyTempEl, dailyWindEl, dailyHumidityEl);
-          forecastContainer.append(box);
-        };
+          for (var i = 0; i < 5; i++) {
+            // create variants for the 5 day forecast
+            var box = document.createElement("div");
+            var dailyWindEl = document.createElement("p");
+            var dailyTempEl = document.createElement("p");
+            var dailyDateEl = document.createElement("span");
+            var dailyIconEl = document.createElement("img");
+            var dailyHumidityEl = document.createElement("p");
+
+            box.classList = "forecastBox";
+            dailyWindEl.textContent = `Wind spreed: ${data.daily[i].wind_speed} mph`;
+            dailyTempEl.textContent = `Temp: ${data.daily[i].temp.day} ° F`;
+            dailyHumidityEl.textContent = `Humidity: ${data.daily[i].humidity} % `;
+
+            var timestamp = `${data.daily[i].dt}`;
+            dailyDateEl.textContent =
+              "  " + new Date(timestamp * 1000).toLocaleDateString("en-US");
+            // add icon to element
+            icon = `${data.daily[i].weather[0].icon}`;
+            dailyIconEl.src = `http://openweathermap.org/img/wn/${icon}@2x.png`;
+
+            box.append(
+              dailyDateEl,
+              dailyIconEl,
+              dailyTempEl,
+              dailyWindEl,
+              dailyHumidityEl
+            );
+            forecastContainer.append(box);
+          }
           // Display errors
-
-
-          
-
         });
       } else {
         alert("Error");
@@ -220,16 +198,16 @@ var forecast = function (lat, long, city) {
     });
 };
 
-
 // event listener with prevent default for the form so it doesn't auto clear
 form.addEventListener("click", function (event) {
   event.preventDefault();
 });
-//     var city = cityInputEl.value.trim();
-
+// search button kicks off the getCity function to generate weather
 searchBtn.addEventListener("click", getCity);
+// allows the clicked on previous searches to generate weather
 listResults.addEventListener("click", runAgain);
-pastSearchCities();
+// initializes the past search function on screen open/refresh
+pastSearchCities(city);
 
 // UV index is only available with one call api
 

@@ -111,6 +111,17 @@ header {
     display: flex;
     flex-direction: column;
 }
+.currentInfo p {
+    font-size: 1rem;
+    padding: .25rem .25rem .5rem .25rem;
+    text-shadow: 1px 1px 2px lightgray;
+    margin: .25rem;
+
+}
+.today {
+    display: inline-flex;
+}
+
 .today h3 {
     text-transform: capitalize;
     margin: .25rem;
@@ -121,16 +132,6 @@ header {
 }
 .today span {
     padding-right: .5rem;
-}
-.currentInfo p {
-    font-size: 1rem;
-    padding: .25rem .25rem .5rem .25rem;
-    text-shadow: 1px 1px 2px lightgray;
-    margin: .25rem;
-
-}
-.today {
-    display: inline-flex;
 }
 .today span {
     font-size: 1.5rem;
@@ -145,25 +146,22 @@ header {
 
 .favorable {
     background-color: green;
-    border: 1px solid black;
     box-shadow: 1px 1px 2px green;
 
     
 }
 .moderate {
     background-color: yellow;
-    border: 1px solid black;
     box-shadow: 1px 1px 2px yellow;
 
 }
 .severe {
     background-color: red;
-    border: 1px solid black;
     box-shadow: 1px 1px 2px red;
 
 }
 /* saved searches styling */
-li {
+.listItem {
     border: 1px solid black;
     padding: 5px;
     width: 100%;
@@ -176,6 +174,7 @@ li {
     font-size: .8rem;
     font-weight: bold;
     text-shadow: 1px 1px 2px white;
+    text-transform: capitalize;
 
 }
 
@@ -208,7 +207,7 @@ li {
 
 .forecastBox span {
     position: absolute;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     font-weight: bold;
     
 }
@@ -217,6 +216,7 @@ li {
 }
 .forecastBox p {
     padding: .5rem 0;
+    font-size: .85rem;
 }
 
 
