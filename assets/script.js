@@ -178,31 +178,32 @@ var forecast = function (lat, long, city) {
 
           // console.log(data.current.uvi);
 
-
+          for(i = 0; i < 6; i++){
           // create variants for the 5 day forecast
-          var dayOne = document.getElementById("box1")
+          var box = document.createElement("div");
           var dailyWindEl = document.createElement("p");
           var dailyTempEl = document.createElement("p");
           var dailyDateEl = document.createElement("span");
           var dailyIconEl = document.createElement("img");
           var dailyHumidityEl = document.createElement("p");
 
+          box.classList ="forecastBox"
+          dailyWindEl.textContent = `Wind spreed: ${data.daily[i].wind_speed} mph`;
+          dailyTempEl.textContent = `Temp: ${data.daily[i].temp.day} ° F`;
+          dailyHumidityEl.textContent = `Humidity: ${data.daily[i].humidity} % `;
 
-          dailyWindEl.textContent = `Wind spreed: ${data.daily[0].wind_speed} mph`;
-          dailyTempEl.textContent = `Temp: ${data.daily[0].temp.day} ° F`;
-          dailyHumidityEl.textContent = `Humidity: ${data.daily[0].humidity} % `;
-
-          var timestamp = `${data.daily[0].dt}`;
+          var timestamp = `${data.daily[i].dt}`;
           dailyDateEl.textContent = "  " + new Date(timestamp*1000).toLocaleDateString("en-US");
           // add icon to element
-          icon = `${data.daily[0].weather[0].icon}`;
+          icon = `${data.daily[i].weather[0].icon}`;
           dailyIconEl.src = `http://openweathermap.org/img/wn/${icon}@2x.png`;
 
+          document.getElementById("forecastContainer").innerHTML = "";
 
-          dayOne.append(dailyDateEl, dailyIconEl, dailyTempEl, dailyWindEl, dailyHumidityEl);
-
-
-
+          
+          box.append(dailyDateEl, dailyIconEl, dailyTempEl, dailyWindEl, dailyHumidityEl);
+          forecastContainer.append(box);
+        };
           // Display errors
 
 

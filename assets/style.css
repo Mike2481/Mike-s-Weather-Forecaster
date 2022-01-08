@@ -186,9 +186,12 @@ li {
     position: relative;
 
 }
-.forecastContainer h3 {
-    position: absolute;
+.forecastTitle {
+    position: relative;
     flex-direction: row;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: .25rem;
 
 }
 
