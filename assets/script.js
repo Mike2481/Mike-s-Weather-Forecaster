@@ -179,7 +179,7 @@ var forecast = function (lat, long, city) {
               "  " + new Date(timestamp * 1000).toLocaleDateString("en-US");
             // add icon to element
             icon = `${data.daily[i].weather[0].icon}`;
-            dailyIconEl.src = `http://openweathermap.org/img/wn/${icon}@2x.png`;
+            dailyIconEl.src = `https://openweathermap.org/img/wn/${icon}@2x.png`;
 
             box.append(
               dailyDateEl,
