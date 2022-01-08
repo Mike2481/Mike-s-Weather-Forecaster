@@ -147,7 +147,7 @@ var forecast = function (lat, long, city) {
             "  " + new Date(timestamp * 1000).toLocaleDateString("en-US");
           // add icon to element
           icon = `${data.current.weather[0].icon}`;
-          iconEl.src = `http://openweathermap.org/img/wn/${icon}@2x.png`;
+          iconEl.src = `https://openweathermap.org/img/wn/${icon}@2x.png`;
 
           console.log(iconEl);
           // append your new element to the page
