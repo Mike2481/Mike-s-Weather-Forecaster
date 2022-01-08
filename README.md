@@ -21,4 +21,4 @@ The deployed page can be seen by following the [link](https://mike2481.github.io
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-![screenshot of deployed application](assets/images/short-quiz-screenshot.png?raw=true "Mike Gordon Profile Page")
+![screenshot of deployed application](assets/images/weather-dashboard.png?raw=true "Weather Dashboard")
