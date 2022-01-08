@@ -8,6 +8,7 @@ var cityEl = document.getElementById("city");
 var list = document.querySelector(".cities");
 var currentInfo = document.getElementById("currentInfo");
 var listResults = document.getElementById("results");
+var forecastContainer = document.getElementById("forecastContainer")
 cityArray = [];
 
 //https://api.openweathermap.org/data/2.5/weather?q=phoenix&appid=64f10b724ca60e2b389d1dae4bebbd3f
@@ -148,7 +149,7 @@ var forecast = function (lat, long, city) {
           container.classList.add("today");
           cityNameEl.textContent = city;
           windEl.textContent = `Wind spreed: ${data.current.wind_speed} mph`;
-          tempEl.textContent = `Current Temp: ${data.current.temp} degrees F`;
+          tempEl.textContent = `Current Temp: ${data.current.temp} ° F`;
           humidityEl.textContent = `Humidity: ${data.current.humidity} % `;
           uvIndexEl.textContent = `UV Index: `;
           uvIndexColor.textContent = `${data.current.uvi}`;
@@ -177,7 +178,36 @@ var forecast = function (lat, long, city) {
 
           // console.log(data.current.uvi);
 
+
+          // create variants for the 5 day forecast
+          var dayOne = document.getElementById("box1")
+          var dailyWindEl = document.createElement("p");
+          var dailyTempEl = document.createElement("p");
+          var dailyDateEl = document.createElement("span");
+          var dailyIconEl = document.createElement("img");
+          var dailyHumidityEl = document.createElement("p");
+
+
+          dailyWindEl.textContent = `Wind spreed: ${data.daily[0].wind_speed} mph`;
+          dailyTempEl.textContent = `Temp: ${data.daily[0].temp.day} ° F`;
+          dailyHumidityEl.textContent = `Humidity: ${data.daily[0].humidity} % `;
+
+          var timestamp = `${data.daily[0].dt}`;
+          dailyDateEl.textContent = "  " + new Date(timestamp*1000).toLocaleDateString("en-US");
+          // add icon to element
+          icon = `${data.daily[0].weather[0].icon}`;
+          dailyIconEl.src = `http://openweathermap.org/img/wn/${icon}@2x.png`;
+
+
+          dayOne.append(dailyDateEl, dailyIconEl, dailyTempEl, dailyWindEl, dailyHumidityEl);
+
+
+
           // Display errors
+
+
+          
+
         });
       } else {
         alert("Error");
@@ -188,6 +218,8 @@ var forecast = function (lat, long, city) {
       alert("Unable to connect", error);
     });
 };
+
+
 // event listener with prevent default for the form so it doesn't auto clear
 form.addEventListener("click", function (event) {
   event.preventDefault();

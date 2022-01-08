@@ -111,7 +111,7 @@ header {
     display: flex;
     flex-direction: column;
 }
-.currentInfo h3 {
+.today h3 {
     text-transform: capitalize;
     margin: .25rem;
     font-size: 1.5rem;
@@ -119,13 +119,14 @@ header {
     padding-right: .5rem;
 
 }
-.currentInfo span {
+.today span {
     padding-right: .5rem;
 }
 .currentInfo p {
-    font-size: .9rem;
+    font-size: 1rem;
     padding: .25rem .25rem .5rem .25rem;
     text-shadow: 1px 1px 2px lightgray;
+    margin: .25rem;
 
 }
 .today {
@@ -137,7 +138,7 @@ header {
     text-shadow: 1px 1px 2px lightgray;
 
 }
-
+/* UV Index style */
 .uvColors {
     font-size: 20px;
 }
@@ -161,7 +162,7 @@ header {
     box-shadow: 1px 1px 2px red;
 
 }
-
+/* saved searches styling */
 li {
     border: 1px solid black;
     padding: 5px;
@@ -176,6 +177,43 @@ li {
     font-weight: bold;
     text-shadow: 1px 1px 2px white;
 
+}
+
+/* 5 day forecast styling */
+
+.forecastContainer {
+    display: flex;
+    position: relative;
+
+}
+.forecastContainer h3 {
+    position: absolute;
+    flex-direction: row;
+
+}
+
+.forecastBox {
+    margin: .25rem;
+    padding: .25rem;
+    justify-content: space-evenly;
+    position: relative;
+    margin-top: 1.5rem;
+    border: 1px solid navy;
+    background-color: rgba(0, 0, 88, 0.959);
+    color: white;
+}
+
+.forecastBox span {
+    position: absolute;
+    font-size: 1.5rem;
+    font-weight: bold;
+    
+}
+.forecastBox img {
+    margin: 1rem 0 0 0;
+}
+.forecastBox p {
+    padding: .5rem 0;
 }
 
 
