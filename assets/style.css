@@ -108,17 +108,32 @@ header {
     border: 2px solid lightgray;
     border-radius: 5px;
     height: auto;
+    display: flex;
+    flex-direction: column;
 }
 .currentInfo h3 {
     text-transform: capitalize;
     margin: .25rem;
     font-size: 1.5rem;
     text-shadow: 1px 1px 2px lightgray;
+    padding-right: .5rem;
 
+}
+.currentInfo span {
+    padding-right: .5rem;
 }
 .currentInfo p {
     font-size: .9rem;
     padding: .25rem .25rem .5rem .25rem;
+    text-shadow: 1px 1px 2px lightgray;
+
+}
+.today {
+    display: inline-flex;
+}
+.today span {
+    font-size: 1.5rem;
+    font-weight: bold;
     text-shadow: 1px 1px 2px lightgray;
 
 }

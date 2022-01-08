@@ -7,6 +7,7 @@ var searchBtn = document.querySelector("#search");
 var cityEl = document.getElementById("city");
 var list = document.querySelector(".cities");
 var currentInfo = document.getElementById("currentInfo");
+var listResults = document.getElementById("results");
 cityArray = [];
 
 //https://api.openweathermap.org/data/2.5/weather?q=phoenix&appid=64f10b724ca60e2b389d1dae4bebbd3f
@@ -15,17 +16,16 @@ cityArray = [];
 var getCity = function () {
   var city = cityEl.value.trim();
 
-  var queryURL =
-  `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKey}`;
-// fetch request to get data for entered city
+  var queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKey}`;
+  // fetch request to get data for entered city
   fetch(queryURL)
     .then(function (response) {
       if (response.ok) {
         response.json().then(function (data) {
           console.log(data);
-// Pull latitude and longitude values from data and pass to forecast function 
+          // Pull latitude and longitude values from data and pass to forecast function
 
-          forecast(data.coord.lat, data.coord.lon, city)
+          forecast(data.coord.lat, data.coord.lon, city);
         });
         // Error is response is not 'ok'
       } else {
@@ -33,26 +33,54 @@ var getCity = function () {
       }
     })
     // Error is an issue with site
-     .catch(function (error) {
-       alert("Unable to connect", error);
-     });
-     cityEl.value = ""
-     saveCity(city);
-      pastSearchCities(city);
+    .catch(function (error) {
+      alert("Unable to connect", error);
+    });
+  cityEl.value = "";
+  saveCity(city);
+  pastSearchCities(city);
 };
 
+var runAgain = function (event) {
+  event.preventDefault();
+  var city = event.target.innerHTML;
 
+  console.log(city);
 
+  var queryURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIKey}`;
+  // fetch request to get data for entered city
+  fetch(queryURL)
+    .then(function (response) {
+      if (response.ok) {
+        response.json().then(function (data) {
+          console.log(data);
+          // Pull latitude and longitude values from data and pass to forecast function
 
-var cityCount = 0
+          forecast(data.coord.lat, data.coord.lon, city);
+        });
+        // Error is response is not 'ok'
+      } else {
+        alert("Error");
+      }
+    })
+    // Error is an issue with site
+    .catch(function (error) {
+      alert("Unable to connect", error);
+    });
+  cityEl.value = "";
+  //  saveCity(city);
+  //   pastSearchCities(city);
+};
+
+var cityCount = 0;
 // get past search values from local storage and populate them in ul
 function pastSearchCities() {
   var priorSearches = JSON.parse(localStorage.getItem("cities"));
-    //console.log(priorSearches);
-    // clear ul so there are no unintentional duplicates
-    list.innerHTML = "";
-    priorSearches.forEach(generateList);
-// ALL FAILED CODE while trying to get list items to the ul
+  //console.log(priorSearches);
+  // clear ul so there are no unintentional duplicates
+  list.innerHTML = "";
+  priorSearches.forEach(generateList);
+  // ALL FAILED CODE while trying to get list items to the ul
   // for (i = 0; i < priorSearches.length; i++) {
   //   const oldSearch = priorSearches[i];
   //   console.log(oldSearch);
@@ -61,7 +89,7 @@ function pastSearchCities() {
   //   list.append(oldSearch);
   // }
   // if (priorSearches != null && priorSearches.length < 1){
-    // cityArray.forEach(arrayValue => console.log(arrayValue));
+  // cityArray.forEach(arrayValue => console.log(arrayValue));
   // for (var i = 0; i < priorSearches.length; i++){
   //   // results.append(priorSearches[i]);
   //     var oldSearch = document.createElement("li");
@@ -78,73 +106,78 @@ function pastSearchCities() {
   // };
   // console.log(priorSearches);
 
-// Proper code for appending li to ul
+  // Proper code for appending li to ul
 
-function generateList(city) {
-  var cityText = document.createElement("li");
-  cityText.textContent = city
-  console.log(city);
-  list.append(cityText);
-
+  function generateList(city) {
+    var cityText = document.createElement("li");
+    cityText.textContent = city;
+    console.log(city);
+    list.append(cityText);
+  }
 }
-
-};
-;
 // save search results in local storage for future use
-var saveCity = function(city) {
+var saveCity = function (city) {
   cityArray.push(city);
   localStorage.setItem("cities", JSON.stringify(cityArray));
 };
 
-
-
 var forecast = function (lat, long, city) {
-// second API will use lat and long from first API so we can get UV index
+  // second API will use lat and long from first API so we can get UV index
   var oneCall = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&units=imperial&appid=${APIKey}`;
-// Fetch call to get all required data to use below
+  // Fetch call to get all required data to use below
   fetch(oneCall)
     .then(function (response) {
       if (response.ok) {
         response.json().then(function (data) {
           console.log("One Call API: ", data);
 
-            // create elements for data
-            var cityNameEl = document.createElement ("h3");
-            var windEl = document.createElement ("p");
-            var tempEl = document.createElement ("p");
-            var humidityEl = document.createElement ("p");
-            var uvIndexEl = document.createElement ("p");
-            // this class works to impact UV DOM element
-            //uvIndexEl.className = "uvColors";
-            var uvIndexColor = document.createElement ("span");
+          // create elements for data
+          var container = document.createElement("div");
+          var cityNameEl = document.createElement("h3");
+          var windEl = document.createElement("p");
+          var tempEl = document.createElement("p");
+          var humidityEl = document.createElement("p");
+          var uvIndexEl = document.createElement("p");
+          // this class works to impact UV DOM element
+          //uvIndexEl.className = "uvColors";
+          var uvIndexColor = document.createElement("span");
+          var dateEl = document.createElement("span");
+          var iconEl = document.createElement("img");
 
+          //give element content
+          container.classList.add("today");
+          cityNameEl.textContent = city;
+          windEl.textContent = `Wind spreed: ${data.current.wind_speed} mph`;
+          tempEl.textContent = `Current Temp: ${data.current.temp} degrees F`;
+          humidityEl.textContent = `Humidity: ${data.current.humidity} % `;
+          uvIndexEl.textContent = `UV Index: `;
+          uvIndexColor.textContent = `${data.current.uvi}`;
+          // Create rules to assign uv index color
+          if (data.current.uvi <= 2) {
+            uvIndexColor.classList = "favorable";
+          } else if (data.current.uvi > 2 && data.current.uvi <= 8) {
+            uvIndexColor.classList = "moderate";
+          } else if (data.current.uvi > 8) {
+            uvIndexColor.classList = "severe";
+          };
+          // get and display date
+          var timestamp = `${data.current.dt}`;
+          dateEl.textContent = "  " + new Date(timestamp*1000).toLocaleDateString("en-US");
+          // add icon to element
+          icon = `${data.current.weather[0].icon}`;
+          iconEl.src = `http://openweathermap.org/img/wn/${icon}@2x.png`;
 
+          console.log(iconEl);
+          // append your new element to the page
+          document.getElementById("currentInfo").innerHTML = "";
+          
+          container.append(cityNameEl, dateEl, iconEl);
+          currentInfo.append(container, tempEl, windEl, humidityEl, uvIndexEl);
+          uvIndexEl.appendChild(uvIndexColor);
 
-            //give element content
-            cityNameEl.textContent = city
-            windEl.textContent = `Wind spreed: ${data.current.wind_speed} mph`
-            tempEl.textContent = `Current Temp: ${data.current.temp} degrees F`
-            humidityEl.textContent = `Humidity: ${data.current.humidity} % `
-            uvIndexEl.textContent = `UV Index: `
-            uvIndexColor.textContent = `${data.current.uvi}`
-            // Create rules to assign uv index color
-            if(data.current.uvi <= 2) {
-              uvIndexColor.classList = "favorable"
-            } else if (data.current.uvi >2 && data.current.uvi <=8) {
-              uvIndexColor.classList = "moderate"
-            } else if (data.current.uvi >8) {
-              uvIndexColor.classList = "severe"
-            }
-            
-            // append your new element to the page
-            document.getElementById("currentInfo").innerHTML = "";
-            currentInfo.append(cityNameEl, tempEl, windEl, humidityEl, uvIndexEl);
-            uvIndexEl.appendChild(uvIndexColor);
+          // console.log(data.current.uvi);
 
-           // console.log(data.current.uvi);
-
-
-// Display errors
+          // Display errors
         });
       } else {
         alert("Error");
@@ -153,17 +186,17 @@ var forecast = function (lat, long, city) {
 
     .catch(function (error) {
       alert("Unable to connect", error);
-      
     });
 };
 // event listener with prevent default for the form so it doesn't auto clear
-form.addEventListener("click", function(event){
-    event.preventDefault();
+form.addEventListener("click", function (event) {
+  event.preventDefault();
+});
+//     var city = cityInputEl.value.trim();
 
-    });
-    //     var city = cityInputEl.value.trim();
 searchBtn.addEventListener("click", getCity);
-
+listResults.addEventListener("click", runAgain);
+pastSearchCities();
 
 // UV index is only available with one call api
 
