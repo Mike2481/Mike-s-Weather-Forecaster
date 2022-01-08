@@ -44,24 +44,15 @@ var getCity = function () {
 
 
 
-// able to get cities to populate in the Ul but not individual li 
 var cityCount = 0
-
-// var pastSearchCities = function () {
-  // for (i = 0; i < localStorage.length; i++)
-  //   if(localStorage.key(i).indexOf("cities") !== -1) {
-  //     var oldSearch = document.createElement("li");
-  //     oldSearch.textContent = JSON.parse(localStorage.getItem(localStorage.key(i)));
-  //     list.appendChild(oldSearch);
-  //     cityCount++;
-    // }
-// }
+// get past search values from local storage and populate them in ul
 function pastSearchCities() {
   var priorSearches = JSON.parse(localStorage.getItem("cities"));
-    console.log(priorSearches);
+    //console.log(priorSearches);
+    // clear ul so there are no unintentional duplicates
     list.innerHTML = "";
     priorSearches.forEach(generateList);
-
+// ALL FAILED CODE while trying to get list items to the ul
   // for (i = 0; i < priorSearches.length; i++) {
   //   const oldSearch = priorSearches[i];
   //   console.log(oldSearch);
@@ -87,8 +78,9 @@ function pastSearchCities() {
   // };
   // console.log(priorSearches);
 
+// Proper code for appending li to ul
+
 function generateList(city) {
-  // list.innerHTML = "";
   var cityText = document.createElement("li");
   cityText.textContent = city
   console.log(city);
@@ -98,7 +90,7 @@ function generateList(city) {
 
 };
 ;
-
+// save search results in local storage for future use
 var saveCity = function(city) {
   cityArray.push(city);
   localStorage.setItem("cities", JSON.stringify(cityArray));
@@ -109,7 +101,7 @@ var saveCity = function(city) {
 var forecast = function (lat, long, city) {
 // second API will use lat and long from first API so we can get UV index
   var oneCall = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&units=imperial&appid=${APIKey}`;
-
+// Fetch call to get all required data to use below
   fetch(oneCall)
     .then(function (response) {
       if (response.ok) {
@@ -135,7 +127,7 @@ var forecast = function (lat, long, city) {
             humidityEl.textContent = `Humidity: ${data.current.humidity} % `
             uvIndexEl.textContent = `UV Index: `
             uvIndexColor.textContent = `${data.current.uvi}`
-
+            // Create rules to assign uv index color
             if(data.current.uvi <= 2) {
               uvIndexColor.classList = "favorable"
             } else if (data.current.uvi >2 && data.current.uvi <=8) {
@@ -149,11 +141,10 @@ var forecast = function (lat, long, city) {
             currentInfo.append(cityNameEl, tempEl, windEl, humidityEl, uvIndexEl);
             uvIndexEl.appendChild(uvIndexColor);
 
-            console.log(data.current.uvi);
-
-      // Data is staying when new search is performed.  Need a way to clear it once new search is started
+           // console.log(data.current.uvi);
 
 
+// Display errors
         });
       } else {
         alert("Error");
@@ -165,16 +156,14 @@ var forecast = function (lat, long, city) {
       
     });
 };
-
+// event listener with prevent default for the form so it doesn't auto clear
 form.addEventListener("click", function(event){
     event.preventDefault();
 
-    // currentInfo = "";
     });
     //     var city = cityInputEl.value.trim();
 searchBtn.addEventListener("click", getCity);
 
-// navigator.geolocation.getCurrentPosition(getCity);
 
 // UV index is only available with one call api
 

@@ -1,3 +1,5 @@
+/* root styling */
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -12,7 +14,7 @@ body {
     flex-wrap: wrap;
     position: relative;
 }
-
+/* set up header with linear-gradient background */
 header {
     width: 100vw;
     font-size: 2rem;
@@ -27,7 +29,6 @@ header {
 }
 
 .mainContainer {
-    border: 1px solid black;
     margin: 10px;
     padding: 0 5px 5px 0;
     width: 100vw;
@@ -55,6 +56,7 @@ header {
 
 .searchField {
     width: 100%;
+    
 }
 
 #city {
@@ -75,9 +77,11 @@ header {
     margin: .25rem 0 .5rem 0;
     color: white;
     background: rgb(101, 163, 255);
+    box-shadow: 1px 1px 2px black;
+
 }
 
-.results {
+/*.results {
     border: 1px solid black;
     padding: 5px;
     width: 100%;
@@ -89,7 +93,7 @@ header {
     font-size: .8rem;
 
 
-}
+}*/
 
 .weather {
     width: 66%;
@@ -99,12 +103,23 @@ header {
     flex-direction: column;
 
 }
-
+/* current weather info */
 .currentInfo {
     border: 2px solid lightgray;
     border-radius: 5px;
     height: auto;
+}
+.currentInfo h3 {
+    text-transform: capitalize;
+    margin: .25rem;
+    font-size: 1.5rem;
+    text-shadow: 1px 1px 2px lightgray;
 
+}
+.currentInfo p {
+    font-size: .9rem;
+    padding: .25rem .25rem .5rem .25rem;
+    text-shadow: 1px 1px 2px lightgray;
 
 }
 
@@ -115,16 +130,37 @@ header {
 .favorable {
     background-color: green;
     border: 1px solid black;
+    box-shadow: 1px 1px 2px green;
+
+    
 }
 .moderate {
     background-color: yellow;
     border: 1px solid black;
+    box-shadow: 1px 1px 2px yellow;
+
 }
 .severe {
     background-color: red;
     border: 1px solid black;
+    box-shadow: 1px 1px 2px red;
+
 }
 
+li {
+    border: 1px solid black;
+    padding: 5px;
+    width: 100%;
+    border-radius: 5px;
+    margin: .25rem 0 .5rem 0;
+    background-color: rgb(175, 175, 175);
+    border-color: black;
+    box-shadow: 1px 1px 2px black;
+    text-align: center;
+    font-size: .8rem;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px white;
 
+}
 
 
