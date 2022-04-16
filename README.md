@@ -14,7 +14,7 @@ Getting the 5-day forecast to populate properly was a challenge too.  I was able
 
 ## Deployed Page
 
-The deployed page can be seen by following the [link](https://mike2481.github.io/Weather-Dashboard/)
+The deployed page can be seen by following the [link](https://mike2481.github.io/Mike-s-Weather-Forecaster/)
 
 
 ## Contributing
